@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PhotoAlbum.Models
@@ -20,5 +21,7 @@ namespace PhotoAlbum.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString ="{0:dd/MM/yyyy}")]
         public DateTime Data { get; set; }
+
+        public ICollection<Images> Images { get; set; }
     }
 }
