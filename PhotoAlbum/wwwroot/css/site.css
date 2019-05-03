@@ -35,3 +35,34 @@ body {
         display: none;
     }
 }
+
+.foto {
+    height:800px;
+    width:100%;
+    background-size:cover;
+    display:flex;
+    align-items:center;
+    text-align:center;
+}
+
+.buttons {
+    padding-top:50px;
+    padding-bottom:50px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.list-names {
+    padding-top:100px;
+    padding-bottom:100px;
+}
+
+.input-field, button-group {
+    padding-top:35px;
+    padding-bottom:35px;
+}
+
+.title {
+    padding-top:15px;
+    padding-bottom:15px;
+}
