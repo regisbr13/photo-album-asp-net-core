@@ -8,13 +8,15 @@ namespace PhotoAlbum.Models
     {
         public int Id { get; set; }
 
+        [Display(Name= "Nome")]
         [Required(ErrorMessage ="campo obrigatório")]
         [StringLength(50, ErrorMessage ="use até {1} caracteres")]
         public string Name { get; set; }
 
+        [Display(Name = "Local")]
         public string Place { get; set; }
 
-        [Required(ErrorMessage ="campo obrigatório")]
+        [Display(Name = "Capa")]
         public string Cover { get; set; }
 
         [Required(ErrorMessage = "campo obrigatório")]

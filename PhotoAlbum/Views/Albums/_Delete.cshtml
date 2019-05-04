@@ -1,0 +1,21 @@
+﻿@model PhotoAlbum.Models.Album
+
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Delete";
+}
+
+<!-- Modal content-->
+<form asp-action="Delete" method="post">
+    <div class="modal-content">
+        <h5 class="center">Excluir album</h5>
+        <p>Confirmar a exclusão do album <strong>@Model.Name</strong>?</p>
+        </div>
+    <div class="modal-footer">
+        <input type="hidden" asp-for="Id" />
+        <a class="modal-close waves-effect waves-light btn-small red darken-3 btn-floating"><i class="material-icons">close</i></a>
+        <button type="submit" class="waves-effect waves-light btn-small green darken-3 btn-floating"><i class="material-icons">check</i></button>
+    </div>
+</form>
+

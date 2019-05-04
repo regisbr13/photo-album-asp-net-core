@@ -1,0 +1,48 @@
+﻿@model PhotoAlbum.Models.Album
+
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Novo album";
+}
+
+<!-- Modal content-->
+<form asp-action="Create" method="post" enctype="multipart/form-data" >
+    <div class="modal-content">
+        <h5 class="center">Novo album</h5>
+        <div class="input-field">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" value="" />
+            <span asp-validation-for="Name" class="red-text text-darken-3"></span>
+        </div>
+        <div class="input-field">
+            <label asp-for="Place" class="control-label"></label>
+            <input asp-for="Place" class="form-control" />
+            <span asp-validation-for="Place" class="red-text text-darken-3"></span>
+        </div>
+        <img id="img" src="#" alt="Capa" />
+        <div class="file-field input-field">
+            <div class="btn-small">
+                <span>Selecione a imagem</span>
+                <input asp-for="Cover" type="file" name="img" id="img" class="form-control" onchange="LoadImg(this)" />
+                <span asp-validation-for="Cover" class="red-text text-darken-3"></span>
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path-wrapper validate" type="text" placeholder="Faça o upload da foto"/>
+            </div>
+        </div>
+
+        <div class="form-control">
+            <label asp-for="Data" class="control-label"></label>
+            <input asp-for="Data" class="form-control datepicker" type="text"/>
+            <span asp-validation-for="Data" class="red-text text-darken-3"></span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-close waves-effect waves-light btn-small red darken-3 btn-floating"><i class="material-icons">close</i></a>
+        <button type="submit" class="waves-effect waves-light btn-small green darken-3 btn-floating btnCreate"><i class="material-icons">check</i></button>
+    </div>
+</form>
+
+
+

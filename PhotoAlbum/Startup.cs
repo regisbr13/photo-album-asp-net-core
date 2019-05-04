@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PhotoAlbum.Data;
+using PhotoAlbum.Service;
 
 namespace PhotoAlbum
 {
@@ -37,6 +38,8 @@ namespace PhotoAlbum
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<Context>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnDB")));
+
+            services.AddScoped<AlbumService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +63,7 @@ namespace PhotoAlbum
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Albums}/{action=Index}/{id?}");
             });
         }
     }

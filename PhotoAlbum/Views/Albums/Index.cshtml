@@ -1,0 +1,180 @@
+﻿@model IEnumerable<PhotoAlbum.Models.Album>
+
+@{
+    ViewData["Title"] = "Albums";
+}
+
+<div class="list-names">
+    <div class="container">
+
+        <p>
+            <a class="btn-floating btn-small blue darken-1 waves-effect waves-light create modal-trigger" data-target="modal1"><i class="material-icons">add</i></a>
+        </p>
+        <table class="table striped highlight hover responsive-table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Place)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Data)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Place)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Data)
+                        </td>
+                        <td>
+                            <a class="btn-floating btn-small blue darken-2 waves-effect waves-light edit modal-trigger" data-target="modal4"><i class="material-icons">create</i></a>
+                            <a class="btn-floating btn-small orange darken-2 waves-effect waves-light details modal-trigger" data-target="modal3"><i class="material-icons">remove_red_eye</i></a>
+                            <a class="btn-floating btn-small red darken-2 waves-effect waves-light delete modal-trigger" data-target="modal2"><i class="material-icons">delete</i></a>
+                            <div id="modal2" class="modal">
+                                <partial name="_Delete" model="@item" />
+                            </div>
+                            <div id="modal3" class="modal">
+                                <partial name="_Details" model="@item" />
+                            </div>
+                            <div id="modal4" class="modal">
+                                <partial name="_Edit" model="@item" />
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="modal1" class="modal">
+    <partial name="_Create" model="new Album()" />
+</div>
+
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+<link href="~/css/materialize/css/materialize.css" rel="stylesheet" />
+    <script>
+        $(function () {
+            $(".create").click(function () {
+                $("#modal1").modal();
+            })
+        });
+
+        $(function () {
+            $(".delete").click(function () {
+                $("#modal2").modal();
+            })
+        });
+
+        $(function () {
+            $(".details").click(function () {
+                $("#modal3").modal();
+            })
+        });
+
+        $(function () {
+            $(".edit").click(function () {
+                $("#modal4").modal();
+            })
+        });
+
+        $(document).ready(function () {
+        $("#img").hide();
+
+        $('.datepicker').datepicker({
+                autoclose: true,
+                format: 'dd/mm/yyyy',
+                defaultDate: new Date(),
+                setDefaultDate: true,
+                disableWeekends: false,
+                showDaysInNextAndPreviousMonths: true,
+                showMonthAfterYear: true,
+                firstDay: 0,
+                container: 'body',
+                showClearBtn: true,
+                i18n: {
+                    cancel: 'Cancelar',
+                    clear: 'Limpar',
+                    done: 'Ok',
+                    previousMonth: '‹',
+                    nextMonth: '›',
+                    months: [
+                        'Janeiro',
+                        'Fevereiro',
+                        'Março',
+                        'Abril',
+                        'Maio',
+                        'Junho',
+                        'Julho',
+                        'Agosto',
+                        'Setembro',
+                        'Outubro',
+                        'Novembro',
+                        'Dezembro'
+                    ],
+
+                    monthsShort: [
+                        'Jan',
+                        'Fev',
+                        'Mar',
+                        'Abr',
+                        'Mai',
+                        'Jun',
+                        'Jul',
+                        'Ago',
+                        'Set',
+                        'Out',
+                        'Nov',
+                        'Dez'
+                    ],
+
+                    weekdays: [
+                        'Domingo',
+                        'Segunda-feira',
+                        'Terça-feira',
+                        'Quarta-feira',
+                        'Quinta-feira',
+                        'Sexta-feira',
+                        'Sábado'
+                    ],
+
+                    weekdaysShort: [
+                        'Dom',
+                        'Seg',
+                        'Ter',
+                        'Qua',
+                        'Qui',
+                        'Sex',
+                        'Sab'
+                    ],
+
+                    weekdaysAbbrev: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
+                }
+
+            });
+        })
+        function LoadImg(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                $("#img").show();
+                reader.onload = function (e) {
+                    $("#img").attr('src', e.target.result).width(250).height(250);
+                }
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    </script>
+}
