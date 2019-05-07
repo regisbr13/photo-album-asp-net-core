@@ -35,13 +35,13 @@ body {
     }
 }
 
-.foto {
-    height:800px;
-    width:100%;
-    background-size:cover;
-    display:flex;
-    align-items:center;
-    text-align:center;
+.photo {
+    height: 500px;
+    width: 100%;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    text-align: center !important;
 }
 
 .buttons {

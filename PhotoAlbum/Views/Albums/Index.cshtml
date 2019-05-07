@@ -40,7 +40,7 @@
                         </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn-floating btn-small blue darken-2 waves-effect waves-light"><i class="material-icons">create</i></a>
-                            <a class="btn-floating btn-small orange darken-2 waves-effect waves-light details modal-trigger" data-target="modal3"><i class="material-icons">remove_red_eye</i></a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn-floating btn-small yellow darken-4 waves-effect waves-light"><i class="material-icons">remove_red_eye</i></a>
                             <a class="btn-floating btn-small red darken-2 waves-effect waves-light delete modal-trigger" data-target="modalDel" onclick="Delete(@item.Id)")><i class="material-icons">delete</i></a>
                         </td>
                     </tr>

@@ -1,0 +1,43 @@
+﻿@model PhotoAlbum.Models.Album
+
+@{
+    ViewData["Title"] = "Album " + Model.Name;
+}
+
+    <div class="album">
+        <div class="photo">
+            <div class="container">
+                <div class="titulo">
+                    <h2 class="white-text">@Html.DisplayFor(model => model.Name)</h2>
+                    <h5 class="white-text">@Html.DisplayFor(model => model.Place)</h5>
+                    <h5 class="white-text">@Html.DisplayFor(model => model.Data)</h5>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <hr />
+            <h5 class="center">Fotos de @Model.Name</h5>
+            <hr />
+            <div class="pathImg hide">@Model.Cover</div>
+        </div>
+
+        <div class="buttons">
+            <a class="btn-floating btn-small waves-effect waves-light create modal-trigger" data-target="modal1"><i class="material-icons">add</i></a>
+        </div>
+        <div class="center">
+            <a asp-action="Index" class="btn-floating btn-small blue darken-3 waves-effect waves-light create"><i class="material-icons">home</i>></a>
+        </div>
+    </div>
+
+
+@section Scripts{
+    <script>
+    var pathImg = $(".pathImg").text();
+    var url = "/" + pathImg;
+
+    $(document).ready(function () {
+        $(".photo").css("background-image", 'url("@Url.Content(Model.Cover)")');
+    });
+    </script>
+}
