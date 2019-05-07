@@ -8,7 +8,7 @@
     <div class="container">
 
         <p>
-            <a class="btn-floating btn-small blue darken-1 waves-effect waves-light create modal-trigger" data-target="modal1"><i class="material-icons">add</i></a>
+            <a class="btn-floating btn-small waves-effect waves-light create modal-trigger" data-target="modal1"><i class="material-icons">add</i></a>
         </p>
         <table class="table striped highlight hover responsive-table">
             <thead>
@@ -39,18 +39,9 @@
                             @Html.DisplayFor(modelItem => item.Data)
                         </td>
                         <td>
-                            <a class="btn-floating btn-small blue darken-2 waves-effect waves-light edit modal-trigger" data-target="modal4"><i class="material-icons">create</i></a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn-floating btn-small blue darken-2 waves-effect waves-light"><i class="material-icons">create</i></a>
                             <a class="btn-floating btn-small orange darken-2 waves-effect waves-light details modal-trigger" data-target="modal3"><i class="material-icons">remove_red_eye</i></a>
-                            <a class="btn-floating btn-small red darken-2 waves-effect waves-light delete modal-trigger" data-target="modal2"><i class="material-icons">delete</i></a>
-                            <div id="modal2" class="modal">
-                                <partial name="_Delete" model="@item" />
-                            </div>
-                            <div id="modal3" class="modal">
-                                <partial name="_Details" model="@item" />
-                            </div>
-                            <div id="modal4" class="modal">
-                                <partial name="_Edit" model="@item" />
-                            </div>
+                            <a class="btn-floating btn-small red darken-2 waves-effect waves-light delete modal-trigger" data-target="modalDel" onclick="Delete(@item.Id)")><i class="material-icons">delete</i></a>
                         </td>
                     </tr>
                 }
@@ -63,9 +54,19 @@
     <partial name="_Create" model="new Album()" />
 </div>
 
+<div id="modalDel" class="modal">
+    <div class="modal-content">
+        <h4>Confirmar exclusão</h4>
+        <p>Deseja prosseguir com a exclusão?</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-close waves-effect waves-light btn-small red darken-3 btn-floating"><i class="material-icons">close</i></a>
+        <a class="modal-close waves-effect waves-light btn-small green darken-3 btn-floating btnConf"><i class="material-icons">check</i></a>
+    </div>
+</div>
+
 @section Scripts{
     @await Html.PartialAsync("_ValidationScriptsPartial")
-<link href="~/css/materialize/css/materialize.css" rel="stylesheet" />
     <script>
         $(function () {
             $(".create").click(function () {
@@ -73,26 +74,23 @@
             })
         });
 
-        $(function () {
-            $(".delete").click(function () {
-                $("#modal2").modal();
+ function Delete(id) {
+        $(".modal").modal();
+        $(".btnConf").on('click', function () {
+            $.ajax({
+                url: '/Albums/Delete',
+                type: 'POST',
+                data: { id: id },
+                success: function () {
+                    location.reload();
+                    $(".modal").modal('close');
+                }
             })
         });
-
-        $(function () {
-            $(".details").click(function () {
-                $("#modal3").modal();
-            })
-        });
-
-        $(function () {
-            $(".edit").click(function () {
-                $("#modal4").modal();
-            })
-        });
+    }
 
         $(document).ready(function () {
-        $("#img").hide();
+        $("#load").hide();
 
         $('.datepicker').datepicker({
                 autoclose: true,
@@ -166,12 +164,13 @@
 
             });
         })
-        function LoadImg(input) {
+    function LoadImg(input) {
+
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                $("#img").show();
+                $(".img").show();
                 reader.onload = function (e) {
-                    $("#img").attr('src', e.target.result).width(250).height(250);
+                    $(".img").attr('src', e.target.result).width(100).height(100);
                 }
             }
             reader.readAsDataURL(input.files[0]);

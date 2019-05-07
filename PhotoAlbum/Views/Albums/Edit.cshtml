@@ -1,0 +1,146 @@
+﻿@model PhotoAlbum.Models.Album
+
+
+@{
+    ViewData["Title"] = "Editar album";
+}
+    <div class="row">
+        <div class="container">
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                <div class="">
+                    <h5 class="center">Editar album <strong>@Model.Name</strong></h5>
+                    <input asp-for="Id" type="hidden" />
+                    <div class="input-field">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="red-text text-darken-3"></span>
+                    </div>
+                    <div class="input-field">
+                        <label asp-for="Place" class="control-label"></label>
+                        <input asp-for="Place" class="form-control" />
+                        <span asp-validation-for="Place" class="red-text text-darken-3"></span>
+                    </div>
+                    @if (Model.Cover != null)
+                    {
+                        <img class="img" src="@Url.Content(Model.Cover)" alt="Capa" width="100" height="100" />
+                    }
+                    else
+                    {
+                        <img class="img" src="#" alt="Capa" width="100" height="100" />
+                    }
+                    <div class="file-field input-field">
+                        <div class="btn-small">
+                            <span>Selecione a imagem</span>
+                            <input asp-for="Cover" type="file" name="img" class="form-control" onchange="LoadImg(this)" />
+                            <span asp-validation-for="Cover" class="red-text text-darken-3"></span>
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path-wrapper validate" type="text" placeholder="Faça o upload da foto" />
+                        </div>
+                    </div>
+
+                    <div class="form-control">
+                        <label asp-for="Data" class="control-label"></label>
+                        <input asp-for="Data" class="form-control datepicker" type="text" />
+                        <span asp-validation-for="Data" class="red-text text-darken-3"></span>
+                    </div>
+                </div>
+                <div class="right">
+                    <a asp-action="Index" class="waves-effect waves-light btn-small red darken-3 btn-floating"><i class="material-icons">close</i></a>
+                    <button type="submit" class="waves-effect waves-light btn-small green darken-3 btn-floating"><i class="material-icons">check</i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        $(document).ready(function () {
+            $("#load").hide();
+
+            $('.datepicker').datepicker({
+                autoclose: true,
+                format: 'dd/mm/yyyy',
+                defaultDate: new Date(),
+                setDefaultDate: true,
+                disableWeekends: false,
+                showDaysInNextAndPreviousMonths: true,
+                showMonthAfterYear: true,
+                firstDay: 0,
+                container: 'body',
+                showClearBtn: true,
+                i18n: {
+                    cancel: 'Cancelar',
+                    clear: 'Limpar',
+                    done: 'Ok',
+                    previousMonth: '‹',
+                    nextMonth: '›',
+                    months: [
+                        'Janeiro',
+                        'Fevereiro',
+                        'Março',
+                        'Abril',
+                        'Maio',
+                        'Junho',
+                        'Julho',
+                        'Agosto',
+                        'Setembro',
+                        'Outubro',
+                        'Novembro',
+                        'Dezembro'
+                    ],
+
+                    monthsShort: [
+                        'Jan',
+                        'Fev',
+                        'Mar',
+                        'Abr',
+                        'Mai',
+                        'Jun',
+                        'Jul',
+                        'Ago',
+                        'Set',
+                        'Out',
+                        'Nov',
+                        'Dez'
+                    ],
+
+                    weekdays: [
+                        'Domingo',
+                        'Segunda-feira',
+                        'Terça-feira',
+                        'Quarta-feira',
+                        'Quinta-feira',
+                        'Sexta-feira',
+                        'Sábado'
+                    ],
+
+                    weekdaysShort: [
+                        'Dom',
+                        'Seg',
+                        'Ter',
+                        'Qua',
+                        'Qui',
+                        'Sex',
+                        'Sab'
+                    ],
+
+                    weekdaysAbbrev: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S']
+                }
+
+            });
+        })
+        function LoadImg(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                $(".img").show();
+                reader.onload = function (e) {
+                    $(".img").attr('src', e.target.result).width(100).height(100);
+                }
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    </script>
+}

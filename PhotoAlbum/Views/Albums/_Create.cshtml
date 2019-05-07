@@ -12,7 +12,7 @@
         <h5 class="center">Novo album</h5>
         <div class="input-field">
             <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" value="" />
+            <input asp-for="Name" class="form-control"/>
             <span asp-validation-for="Name" class="red-text text-darken-3"></span>
         </div>
         <div class="input-field">
@@ -20,21 +20,20 @@
             <input asp-for="Place" class="form-control" />
             <span asp-validation-for="Place" class="red-text text-darken-3"></span>
         </div>
-        <img id="img" src="#" alt="Capa" />
+        <img class="img" id="load" src="#" alt="Capa" />
         <div class="file-field input-field">
             <div class="btn-small">
                 <span>Selecione a imagem</span>
-                <input asp-for="Cover" type="file" name="img" id="img" class="form-control" onchange="LoadImg(this)" />
+                <input asp-for="Cover" type="file" class="form-control" name="img" onchange="LoadImg(this)" />
                 <span asp-validation-for="Cover" class="red-text text-darken-3"></span>
             </div>
             <div class="file-path-wrapper">
-                <input class="file-path-wrapper validate" type="text" placeholder="Faça o upload da foto"/>
+                <input class="file-path-wrapper validate" type="text" placeholder="Faça o upload da foto" />
             </div>
         </div>
-
         <div class="form-control">
             <label asp-for="Data" class="control-label"></label>
-            <input asp-for="Data" class="form-control datepicker" type="text"/>
+            <input asp-for="Data" class="form-control datepicker" type="text" />
             <span asp-validation-for="Data" class="red-text text-darken-3"></span>
         </div>
     </div>
