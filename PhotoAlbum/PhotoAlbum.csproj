@@ -11,7 +11,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Images\" />
+    <Folder Include="wwwroot\albums\" />
     <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Shared\_CreateImg.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>

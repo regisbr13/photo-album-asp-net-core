@@ -45,8 +45,8 @@ body {
 }
 
 .buttons {
-    padding-top:50px;
-    padding-bottom:50px;
+    padding-top: 25px;
+    padding-bottom: 25px;
     padding-left: 25px;
     padding-right: 25px;
 }
@@ -64,4 +64,18 @@ body {
 .title {
     padding-top:15px;
     padding-bottom:15px;
+}
+
+.divLeft {
+    width: 49.5%;
+    float: left;
+    position: relative;
+}
+
+.textDiv {
+    position: absolute;
+    top: 200px;
+    left: 200px;
+    /*cor apenas para exmplo*/
+    color: #fff;
 }

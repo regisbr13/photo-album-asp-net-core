@@ -63,5 +63,10 @@ namespace PhotoAlbum.Service
             await _context.SaveChangesAsync();
 
         }
+
+        public int Count()
+        {
+            return _context.Albums.Count();
+        }
     }
 }

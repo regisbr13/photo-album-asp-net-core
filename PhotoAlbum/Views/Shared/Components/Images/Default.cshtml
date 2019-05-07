@@ -1,0 +1,30 @@
+﻿@model IEnumerable<PhotoAlbum.Models.Images>
+
+@{
+    ViewData["Title"] = "Default";
+}
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col s3 divLeft">
+            <img src="@Url.Content(item.Path)" width="250" height="250" class="materialboxed"/>
+            <div class="textDiv">
+                <a class="btn-floating btn-small red darken-2 waves-effect waves-light delete modal-trigger" data-target="modalDel" onclick="Delete(@item.Id)"><i class="material-icons">delete</i></a>
+            </div>
+        </div>
+    }
+</div>
+
+
+<div id="modalDel" class="modal">
+    <div class="modal-content">
+        <h4>Confirmar exclusão</h4>
+        <p>Deseja prosseguir com a exclusão da foto?</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-close waves-effect waves-light btn-small red darken-3 btn-floating"><i class="material-icons">close</i></a>
+        <a class="modal-close waves-effect waves-light btn-small green darken-3 btn-floating btnConf"><i class="material-icons">check</i></a>
+    </div>
+</div>
+

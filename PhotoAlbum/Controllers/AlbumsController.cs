@@ -14,12 +14,14 @@ namespace PhotoAlbum.Controllers
     public class AlbumsController : Controller
     {
         private readonly AlbumService _albumService;
+        private readonly ImagesService _imagesService;
         private readonly IHostingEnvironment _environment;
 
-        public AlbumsController(AlbumService albumService, IHostingEnvironment environment)
+        public AlbumsController(AlbumService albumService, IHostingEnvironment environment, ImagesService imagesService)
         {
             _albumService = albumService;
             _environment = environment;
+            _imagesService = imagesService;
         }
 
         // GET:
@@ -45,25 +47,21 @@ namespace PhotoAlbum.Controllers
             return View(obj);
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
-
         // CREATE POST: 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Album obj, IFormFile img)
         {
+            var name = _imagesService.Count();
+            obj.Cover = "~/albums/" + name + ".jpg";
             if (ModelState.IsValid)
             {
                 if(img != null)
                 {
-                    var path = Path.Combine(_environment.WebRootPath, "images");
-                    using (var fs = new FileStream(Path.Combine(path, obj.Name + ".jpg"), FileMode.Create))
+                    var path = Path.Combine(_environment.WebRootPath, "albums");
+                    using (var fs = new FileStream(Path.Combine(path, name + ".jpg"), FileMode.Create))
                     {
-                        await img.CopyToAsync(fs);
-                        obj.Cover = "~/images/" + obj.Name + ".jpg";
+                        await img.CopyToAsync(fs);   
                     }
                 }
                 await _albumService.InsertAsync(obj);
@@ -98,18 +96,17 @@ namespace PhotoAlbum.Controllers
             {
                 return NotFound();
             }
-
-            obj.Cover = "~/images/" + obj.Name + ".jpg";
+            var name = _imagesService.Count();
+            obj.Cover = "~/albums/" + name + ".jpg";
 
             if (ModelState.IsValid)
             {
                 if (img != null)
                 {
-                    var path = Path.Combine(_environment.WebRootPath, "images");
-                    using (var fs = new FileStream(Path.Combine(path, obj.Name + ".jpg"), FileMode.Create))
+                    var path = Path.Combine(_environment.WebRootPath, "albums");
+                    using (var fs = new FileStream(Path.Combine(path, name + ".jpg"), FileMode.Create))
                     {
                         await img.CopyToAsync(fs);
-                        obj.Cover = "~/images/" + obj.Name + ".jpg";
                     }
                 }
                 await _albumService.UpdateAsync(obj);
@@ -122,6 +119,19 @@ namespace PhotoAlbum.Controllers
         [HttpPost]
         public async Task<JsonResult> Delete(int id)
         {
+            var images = await _imagesService.FindByAlbumIdAsync(id);
+
+            foreach(var file in images)
+            {
+                var img = file.Path.Replace("~", "wwwroot");
+                System.IO.File.Delete(img);
+                await _imagesService.RemoveAsync(file.Id);
+            }
+            Album obj = await _albumService.FindByIdAsync(id);
+            var cover = obj.Cover;
+            cover = cover.Replace("~", "wwwroot");
+            System.IO.File.Delete(cover);
+
             await _albumService.RemoveAsync(id);
             return Json(true);
         }

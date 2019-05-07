@@ -1,0 +1,33 @@
+﻿@model PhotoAlbum.Models.Album
+
+
+@{
+    Layout = null;
+    ViewData["Title"] = "Nova imagem";
+}
+
+<!-- Modal content-->
+<form asp-action="Create" asp-controller="Images" method="post" enctype="multipart/form-data">
+    <div class="modal-content">
+        <h5 class="center">Nova foto para o album <strong>@Model.Name</strong></h5>
+
+        <img class="img" id="load" src="#" alt="Capa" />
+        <div class="file-field input-field">
+            <div class="btn-small">
+                <input type="hidden" name="albumId" value="@Model.Id" />
+                <span>Selecione a imagem</span>
+                <input type="file" class="form-control" name="img" onchange="LoadImg(this)" />
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path-wrapper validate" type="text" placeholder="Faça o upload da foto" />
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-close waves-effect waves-light btn-small red darken-3 btn-floating"><i class="material-icons">close</i></a>
+        <button type="submit" class="waves-effect waves-light btn-small green darken-3 btn-floating btnCreate"><i class="material-icons">check</i></button>
+    </div>
+</form>
+
+
+

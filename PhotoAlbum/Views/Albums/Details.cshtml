@@ -4,40 +4,80 @@
     ViewData["Title"] = "Album " + Model.Name;
 }
 
-    <div class="album">
-        <div class="photo">
-            <div class="container">
-                <div class="titulo">
-                    <h2 class="white-text">@Html.DisplayFor(model => model.Name)</h2>
-                    <h5 class="white-text">@Html.DisplayFor(model => model.Place)</h5>
-                    <h5 class="white-text">@Html.DisplayFor(model => model.Data)</h5>
-                </div>
+<div class="album">
+    <div class="photo">
+        <div class="container">
+            <div class="titulo">
+                <h2 class="white-text">@Html.DisplayFor(model => model.Name)</h2>
+                <h5 class="white-text">@Html.DisplayFor(model => model.Place)</h5>
+                <h5 class="white-text">@Html.DisplayFor(model => model.Data)</h5>
             </div>
         </div>
+    </div>
 
-        <div>
-            <hr />
-            <h5 class="center">Fotos de @Model.Name</h5>
-            <hr />
-            <div class="pathImg hide">@Model.Cover</div>
-        </div>
-
+    <div>
+        <hr />
+        <h5 class="center">Fotos do album</h5>
+        <hr />
+        <div class="pathImg hide">@Model.Cover</div>
         <div class="buttons">
-            <a class="btn-floating btn-small waves-effect waves-light create modal-trigger" data-target="modal1"><i class="material-icons">add</i></a>
-        </div>
-        <div class="center">
-            <a asp-action="Index" class="btn-floating btn-small blue darken-3 waves-effect waves-light create"><i class="material-icons">home</i>></a>
+            <a class="btn-floating btn-small waves-effect waves-light create modal-trigger" data-target="modal"><i class="material-icons">add</i></a>
         </div>
     </div>
+</div>
+
+<div id="modal" class="modal">
+    <partial name="_CreateImg" model="Model" />
+</div>
+
+@await Component.InvokeAsync("Images", Model.Id);
 
 
 @section Scripts{
     <script>
+        $(function () {
+            $(".create").click(function () {
+                $("#modal").modal();
+            })
+        });
+
+            function LoadImg(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                $(".img").show();
+                reader.onload = function (e) {
+                    $(".img").attr('src', e.target.result).width(100).height(100);
+                }
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+
     var pathImg = $(".pathImg").text();
     var url = "/" + pathImg;
 
     $(document).ready(function () {
+         $("#load").hide();
         $(".photo").css("background-image", 'url("@Url.Content(Model.Cover)")');
     });
+
+         function Delete(id) {
+        $(".modal").modal();
+        $(".btnConf").on('click', function () {
+            $.ajax({
+                url: '/Images/Delete',
+                type: 'POST',
+                data: { id: id },
+                success: function () {
+                    location.reload();
+                    $(".modal").modal('close');
+                }
+            })
+        });
+        }
+
+     $(document).ready(function(){
+        $('.materialboxed').materialbox();
+  });
     </script>
 }
