@@ -3,18 +3,17 @@
 @{
     ViewData["Title"] = "Default";
 }
-<div class="row">
-
-    @foreach (var item in Model)
-    {
-        <div class="col s3 divLeft">
-            <img src="@Url.Content(item.Path)" width="250" height="250" class="materialboxed"/>
+    <div class="row card">
+        @foreach (var item in Model)
+        {
+        <div class="col s12 m4 14 divLeft">
+            <img src="@Url.Content(item.Path)" class="materialboxed responsive-img card" />
+            <a class="btn-floating btn-small red darken-2 waves-effect waves-light delete modal-trigger textDiv" data-target="modalDel" onclick="Delete(@item.Id)"><i class="material-icons">delete</i></a>
             <div class="textDiv">
-                <a class="btn-floating btn-small red darken-2 waves-effect waves-light delete modal-trigger" data-target="modalDel" onclick="Delete(@item.Id)"><i class="material-icons">delete</i></a>
             </div>
         </div>
-    }
-</div>
+        }
+    </div>
 
 
 <div id="modalDel" class="modal">

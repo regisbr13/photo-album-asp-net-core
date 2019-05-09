@@ -31,6 +31,7 @@ namespace PhotoAlbum.Controllers
         }
 
         // GET:
+        [HttpGet("/Visualizar-album")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,22 +48,30 @@ namespace PhotoAlbum.Controllers
             return View(obj);
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+
         // CREATE POST: 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Album obj, IFormFile img)
         {
-            var name = _imagesService.Count();
-            obj.Cover = "~/albums/" + name + ".jpg";
             if (ModelState.IsValid)
             {
                 if(img != null)
                 {
                     var path = Path.Combine(_environment.WebRootPath, "albums");
-                    using (var fs = new FileStream(Path.Combine(path, name + ".jpg"), FileMode.Create))
+                    using (var fs = new FileStream(Path.Combine(path, img.FileName), FileMode.Create))
                     {
+                        obj.Cover = "~/albums/" + img.FileName;
                         await img.CopyToAsync(fs);   
                     }
+                }
+                else
+                {
+                    obj.Cover = obj.Name + ".jpg";
                 }
                 await _albumService.InsertAsync(obj);
                 return RedirectToAction(nameof(Index));
@@ -71,6 +80,7 @@ namespace PhotoAlbum.Controllers
         }
 
         // EDIT GET:
+        [HttpGet("/Editar-Album")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,11 +94,14 @@ namespace PhotoAlbum.Controllers
                 return NotFound();
             }
 
+            TempData["cover"] = album.Cover.ToString();
+            TempData.Keep();
+
             return View(album);
         }
 
         // Post:
-        [HttpPost]
+        [HttpPost("/Editar-Album")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Album obj, IFormFile img)
         {
@@ -96,16 +109,17 @@ namespace PhotoAlbum.Controllers
             {
                 return NotFound();
             }
-            var name = _imagesService.Count();
-            obj.Cover = "~/albums/" + name + ".jpg";
+
+            obj.Cover = TempData["cover"].ToString();
 
             if (ModelState.IsValid)
             {
                 if (img != null)
                 {
                     var path = Path.Combine(_environment.WebRootPath, "albums");
-                    using (var fs = new FileStream(Path.Combine(path, name + ".jpg"), FileMode.Create))
+                    using (var fs = new FileStream(Path.Combine(path, img.FileName), FileMode.Create))
                     {
+                        obj.Cover = "~/albums/" + img.FileName;
                         await img.CopyToAsync(fs);
                     }
                 }
@@ -114,6 +128,8 @@ namespace PhotoAlbum.Controllers
             }
             return View(obj);
         }
+
+
 
         // DELETE POST: 
         [HttpPost]

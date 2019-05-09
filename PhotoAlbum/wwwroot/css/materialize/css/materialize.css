@@ -2722,7 +2722,7 @@ i {
 
 img.responsive-img,
 video.responsive-video {
-    max-width: 100%;
+    width: auto;
     height: auto;
 }
 
@@ -4937,6 +4937,8 @@ small {
         .card.small .card-image, .card.medium .card-image, .card.large .card-image {
             max-height: 60%;
             overflow: hidden;
+            width: 100%;
+            height: auto;
         }
 
             .card.small .card-image + .card-content, .card.medium .card-image + .card-content, .card.large .card-image + .card-content {

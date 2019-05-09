@@ -3,13 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Albuns</title>
+    <title>@ViewData["Title"] - Álbuns</title>
 
     <environment include="Development">
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Import materialize.css-->
-        <link href="~/css/materialize/css/materialize.css" rel="stylesheet" />
+        <link href="~/css/materialize/css/materialize.min.css" rel="stylesheet" />
         <link href="~/css/site.css" rel="stylesheet" />
     </environment>
     <environment exclude="Development">
@@ -17,14 +17,14 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="~/css/materialize/css/materialize.min.css" media="screen,projection" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link href="~/css/site.css" rel="stylesheet" />
     </environment>
 </head>
 <body>
 
     <nav class="blue darken-3">
         <div class="nav-wrapper">
-            <a class="brand-logo center" asp-controller="Albums" asp-action="Index">Albuns de fotos</a>
+            <a class="brand-logo center" asp-controller="Albums" asp-action="Index">Álbuns de fotos</a>
         </div>
     </nav>
 
@@ -32,7 +32,17 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - PhotoAlbum</p>
+            <div class="row center">
+                <div class="col s4">
+                    &copy; 2019 - Developed by Regis
+                </div>
+                <div class="col s4">
+                    <a href="https://github.com/regisbr13/photo-album-asp-net-core" target="_blank" class="btn-link">Código do Projeto</a>
+                </div>
+                <div class="col s4">
+                    <a href="https://meuportfolio.azurewebsites.net/" target="_blank" class="btn-link">Mais projetos</a>
+                </div>
+            </div>
         </footer>
     </div>
 

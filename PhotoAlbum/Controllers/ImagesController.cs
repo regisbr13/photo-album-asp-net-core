@@ -22,6 +22,12 @@ namespace PhotoAlbum.Controllers
             _environment = environment;
         }
 
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
         // CREATE POST: 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -30,17 +36,28 @@ namespace PhotoAlbum.Controllers
             var obj = new Images() { AlbumId = albumId };
             if (img != null)
             {
-                var count = _imagesService.Count();
-                var path = Path.Combine(_environment.WebRootPath, "images");
-                using (var fs = new FileStream(Path.Combine(path, count + ".jpg"), FileMode.Create))
+                if(await _imagesService.ImgExist("~/images/" + img.FileName))
                 {
-                    await img.CopyToAsync(fs);
-                    obj.Path = "~/images/" + count + ".jpg";
+                    TempData["erro"] = "Já existe uma imagem com este nome cadastrada. Tente renomeá-la e refaça o upload.";
                 }
+                else
+                {
+                    var path = Path.Combine(_environment.WebRootPath, "images");
+                    using (var fs = new FileStream(Path.Combine(path, img.FileName), FileMode.Create))
+                    {
+                        await img.CopyToAsync(fs);
+                        obj.Path = "~/images/" + img.FileName;
+                        TempData["img"] = obj.Path;
+                    }
+                    await _imagesService.InsertAsync(obj);
+                }
+            }
+            else
+            {
+                TempData["erro"] = "Você precisa escolher uma imagem para upload.";
             }
             TempData["id"] = albumId;
             TempData.Keep();
-            await _imagesService.InsertAsync(obj);
             return RedirectToAction("Details", "Albums", new { id = obj.AlbumId });
         }
 

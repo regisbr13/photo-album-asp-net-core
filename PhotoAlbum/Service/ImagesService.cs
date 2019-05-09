@@ -49,5 +49,12 @@ namespace PhotoAlbum.Service
             await _context.SaveChangesAsync();
 
         }
+
+        public async Task<bool> ImgExist(string path)
+        {
+            if (await _context.Images.AnyAsync(i => i.Path == path))
+                return true;
+            return false;
+        }
     }
 }
